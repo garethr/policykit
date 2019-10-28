@@ -44,8 +44,15 @@ def build(files, lib, out):
 
             for library in glob.glob(f"{lib}/*.rego"):
                 with open(library, "r") as handle:
-                    click.echo(f'{head} Adding library from "{library}"')
+                    click.echo(f'{head} Adding global library from "{library}"')
                     ct.libs.append(handle.read())
+
+            lib_path = path.parent.joinpath(lib)
+            if Path(lib) != lib_path:
+                for library in glob.glob(f"{lib_path}/*.rego"):
+                    with open(library, "r") as handle:
+                        click.echo(f'{head} Adding local library from "{library}"')
+                        ct.libs.append(handle.read())
 
             if out:
                 output_path = Path(out).joinpath(f"{name}.yaml")
