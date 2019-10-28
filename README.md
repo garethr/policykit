@@ -46,11 +46,14 @@ print(ct.yaml())
 
 ## Action
 
-```
+Policy Kit can also be easily used in GitHub Actions, using the following Action. This example also demonstrates
+committing the generated files back into the Git repository. Update the the values in `<>` as required.
+
+```yaml
 on: push
-name: Build
+name: Gatekeeper
 jobs:
-  gatekeeper:
+  build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
