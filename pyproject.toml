@@ -12,10 +12,10 @@ python = "^3.7"
 PyYAML = "^5.1"
 click = "^7.0"
 colorama = "^0.4.1"
-attr = "^0.3.1"
+attrs = "^19.3"
 
 [tool.poetry.scripts]
-policytool = "cli:cli"
+policytool = "policytool.cli:cli"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
