@@ -1,6 +1,8 @@
 FROM python:alpine
 
-RUN pip3 install policykit
+ARG VERSION
+
+RUN pip3 install policykit==$VERSION
 
 WORKDIR /app
 
