@@ -11,6 +11,5 @@ runs:
   using: "docker"
   image: "docker://garethr/policytool:latest"
   args:
-  - policytool
   - ${{ inputs.command }}
   - ${{ inputs.args }} 
