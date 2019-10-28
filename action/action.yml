@@ -1,4 +1,4 @@
-name: "policytool"
+name: "policykit"
 description: "Tools for working with Open Policy Agent"
 author: "Gareth Rushgrove"
 inputs:
@@ -6,10 +6,10 @@ inputs:
     description: "Which command to run, defaults to build"
     default: build
   args:
-    description: "Additional arguments to pass to policytool"
+    description: "Additional arguments to pass to policykit"
 runs:
   using: "docker"
-  image: "docker://garethr/policytool:latest"
+  image: "docker://garethr/policykit:latest"
   args:
   - ${{ inputs.command }}
   - ${{ inputs.args }} 

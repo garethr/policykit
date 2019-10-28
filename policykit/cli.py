@@ -3,7 +3,7 @@ from pathlib import Path
 
 import click
 
-from policytool import ConstraintTemplate
+from policykit import ConstraintTemplate
 
 COLORS = ["red", "green", "yellow", "blue", "magenta", "cyan"]
 

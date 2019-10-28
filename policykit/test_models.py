@@ -1,6 +1,6 @@
 import pytest  # type: ignore
 
-from policytool import ConstraintTemplate
+from policykit import ConstraintTemplate
 
 
 class TestConstraintTemplate(object):
