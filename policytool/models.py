@@ -1,5 +1,6 @@
 from typing import List
 
+import attr
 import yaml
 
 
@@ -9,15 +10,27 @@ def str_presenter(dumper, data):
     return dumper.represent_scalar("tag:yaml.org,2002:str", data)
 
 
+@attr.s(auto_attribs=True)
 class ConstraintTemplate(object):
-    def __init__(self, kind: str, rego: str, libs: List[str] = []):
-        self.name = kind.lower()
-        self.kind = kind
-        self.list_kind = f"{kind}List"
-        self.plural = self.name
-        self.singular = self.name.rstrip("s")
-        self.rego = rego
-        self.libs = libs
+    kind: str
+    rego: str
+    libs: List[str] = attr.Factory(list)
+
+    @property
+    def name(self):
+        return self.kind.lower()
+
+    @property
+    def plural(self):
+        return self.name
+
+    @property
+    def singular(self):
+        return self.name.rstrip("s")
+
+    @property
+    def list_kind(self):
+        return f"{self.kind}List"
 
     @property
     def _template(self):
@@ -45,7 +58,6 @@ class ConstraintTemplate(object):
             temp["spec"]["targets"][0]["libs"] = self.libs
         return temp
 
-    @property
     def yaml(self):
         yaml.add_representer(str, str_presenter)
         return yaml.dump(self._template)

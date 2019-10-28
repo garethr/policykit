@@ -39,7 +39,7 @@ def build(files, lib):
 
         with open(f"{name}.yaml", "w") as template:
             click.echo(f'{head} Saving to "{name}.yaml"')
-            template.write(ct.yaml)
+            template.write(ct.yaml())
 
 
 cli.add_command(build)

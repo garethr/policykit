@@ -44,7 +44,7 @@ name = input.review.object.metadata.name
 
     def test_yaml(self, template):
         assert (
-            template.yaml
+            template.yaml()
             == """apiVersion: templates.gatekeeper.sh/v1beta1
 kind: ConstraintTemplate
 metadata:
