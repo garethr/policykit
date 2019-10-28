@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "policytool"
-version = "0.2.0"
+version = "0.2.1"
 license = "Apache-2.0"
 description = "A set of utilities and classes for working with Open Policy Agent based tools, including Gatekeeper and Conftest"
 authors = ["Gareth Rushgrove <gareth@morethanseven.net>"]
