@@ -40,7 +40,7 @@ from policytool import ConstraintTemplate
 
 with open(path_to_rego_source_file, "r") as rego:
     ct = ConstraintTemplate(name, rego.read())
-print(ct.yaml)
+print(ct.yaml())
 ```
 
 
