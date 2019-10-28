@@ -27,7 +27,7 @@ def build(files, lib, out):
 
     for filename in files:
         filepath = Path(filename)
-        if filepath.is_dir:
+        if filepath.is_dir():
             paths = []
             for source in glob.glob(f"{filepath}/*.rego"):
                 paths.append(Path(source))
