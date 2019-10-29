@@ -35,7 +35,7 @@ docker run --rm -it -v $(pwd):/app  garethr/policykit build
 
 ## Python
 
-This module currently contains one class, for working with `ConstraintTemplates` in Gatekeeper.
+This module currently contains several classes, the first for working with `ConstraintTemplates` in Gatekeeper.
 
 ```python
 from policykit import ConstraintTemplate
@@ -43,6 +43,19 @@ from policykit import ConstraintTemplate
 with open(path_to_rego_source_file, "r") as rego:
     ct = ConstraintTemplate(name, rego.read())
 print(ct.yaml())
+```
+
+The `Conftest` class makes interacting with [Conftest](https://github.com/instrumenta/conftest) from Python easy.
+Note that this requires the `conftest` executable to be available on the path.
+
+```python
+>>> from policykit.conftest import Conftest
+>>> cli = Conftest("policy")
+>>> result = cli.test("deployment.yaml")
+>>> result
+ConftestRun(code=1, results=[ConftestResult(filename='/Users/garethr/Documents/conftest/examples/kubernetes/deployment.yaml', Warnings=[], Failures=['hello-kubernetes must include Kubernetes recommended labels: https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/#labels ', 'Containers must not run as root in Deployment hello-kubernetes', 'Deployment hello-kubernetes must provide app/release labels for pod selectors'], Successes=[])]
+>>> result.success
+False
 ```
 
 

@@ -1,13 +1,34 @@
+from dataclasses import dataclass
 from typing import List
 
 import attr
 import yaml
+from dataclasses_json import dataclass_json
 
 
 def str_presenter(dumper, data):
     if len(data.splitlines()) > 1:  # check for multiline string
         return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
     return dumper.represent_scalar("tag:yaml.org,2002:str", data)
+
+
+@dataclass_json
+@dataclass
+class ConftestResult:
+    filename: str
+    Warnings: List[str]
+    Failures: List[str]
+    Successes: List[str]
+
+
+@dataclass
+class ConftestRun:
+    code: int
+    results: List[ConftestResult]
+
+    @property
+    def success(self):
+        return not bool(self.code)
 
 
 @attr.s(auto_attribs=True)

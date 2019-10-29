@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "policykit"
-version = "0.1.2"
+version = "0.2.0"
 license = "Apache-2.0"
 description = "A set of utilities and classes for working with Open Policy Agent based tools, including Gatekeeper and Conftest"
 authors = ["Gareth Rushgrove <gareth@morethanseven.net>"]
@@ -13,6 +13,8 @@ PyYAML = "^5.1"
 click = "^7.0"
 colorama = "^0.4.1"
 attrs = "^19.3"
+"delegator.py" = "^0.1.1"
+dataclasses-json = "^0.3.5"
 
 [tool.poetry.scripts]
 policykit = "policykit.cli:cli"
