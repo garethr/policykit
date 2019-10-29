@@ -1,5 +1,7 @@
 # Policy Kit
 
+[![CircleCI](https://circleci.com/gh/garethr/policykit.svg?style=svg)](https://circleci.com/gh/garethr/policykit)
+
 A set of utilities and classes for working with [Open Policy Agent](https://www.openpolicyagent.org/) based tools, including [Gatekeeper](https://github.com/open-policy-agent/gatekeeper) and [Conftest](https://github.com/instrumenta/conftest).
 
 
