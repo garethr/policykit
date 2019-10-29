@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 import attr
-import delegator  # type: ignor
+import delegator  # type: ignore
 
 from .errors import ConftestNotFoundError, ConftestRunError
 from .models import ConftestResult, ConftestRun
