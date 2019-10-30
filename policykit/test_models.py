@@ -1,6 +1,17 @@
 import pytest  # type: ignore
 
 from policykit import ConstraintTemplate
+from policykit.models import ConftestRun
+
+
+class TestConftestRun(object):
+    def test_failures(self):
+        run = ConftestRun(code=1, results=[])
+        assert not run.success
+
+    def test_pass(self):
+        run = ConftestRun(code=0, results=[])
+        assert run.success
 
 
 class TestConstraintTemplate(object):

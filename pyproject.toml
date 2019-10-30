@@ -27,6 +27,7 @@ pytest-black = "^0.3.7"
 pytest-isort = "^0.3.1"
 pytest-mypy = "^0.4.1"
 pytest-cov = "^2.8"
+pytest-mock = "^1.11"
 
 [tool.isort]
 multi_line_output = 3
