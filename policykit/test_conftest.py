@@ -44,6 +44,25 @@ class TestConftest(object):
             "conftest test --output json --input ini some/file"
         )
 
+    def test_test_method_with_fail_flag(self, mocker, cli):
+        mocker.patch("delegator.run", return_value=Mock(out="[]"))
+        cli.test("some/file", fail_on_warn=True)
+        delegator.run.assert_called_once_with(
+            "conftest test --output json --fail-on-warn some/file"
+        )
+
+    def test_test_method_with_flag_false(self, mocker, cli):
+        mocker.patch("delegator.run", return_value=Mock(out="[]"))
+        cli.test("some/file", fail_on_warn=False)
+        delegator.run.assert_called_once_with("conftest test --output json some/file")
+
+    def test_test_method_with_combine_flag(self, mocker, cli):
+        mocker.patch("delegator.run", return_value=Mock(out="[]"))
+        cli.test("some/file", combine=True)
+        delegator.run.assert_called_once_with(
+            "conftest test --output json --combine some/file"
+        )
+
     def test_test_error(self, mocker, cli):
         mocker.patch("delegator.run", return_value=Mock(out="", err="mock error"))
         with pytest.raises(ConftestRunError, match="mock error"):

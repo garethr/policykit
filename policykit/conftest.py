@@ -34,7 +34,12 @@ class Conftest(object):
 
     @_check_for_conftest
     def test(
-        self, files: str, namespace: Optional[str] = None, input: Optional[str] = None
+        self,
+        files: str,
+        namespace: Optional[str] = None,
+        input: Optional[str] = None,
+        fail_on_warn: Optional[bool] = None,
+        combine: Optional[bool] = None,
     ):
         args = "test --output json"
         if self.policy:
@@ -43,6 +48,10 @@ class Conftest(object):
             args = f"{args} --namespace {namespace}"
         if input:
             args = f"{args} --input {input}"
+        if fail_on_warn:
+            args = f"{args} --fail-on-warn"
+        if combine:
+            args = f"{args} --combine"
         return self.run(f"{args} {files}")
 
     @_check_for_conftest
