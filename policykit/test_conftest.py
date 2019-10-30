@@ -10,8 +10,11 @@ from .errors import ConftestNotFoundError, ConftestRunError
 
 class TestConftest(object):
     @pytest.fixture
-    def cli(self, mocker):
+    def conftest(self, mocker):
         mocker.patch("shutil.which", return_value="/usr/bin/conftest")
+
+    @pytest.fixture
+    def cli(self, conftest):
         return Conftest()
 
     def test_test_method(self, mocker, cli):
@@ -19,7 +22,7 @@ class TestConftest(object):
         cli.test("some/file")
         delegator.run.assert_called_once_with("conftest test --output json some/file")
 
-    def test_test_method_with_policy(self, mocker):
+    def test_test_method_with_policy(self, mocker, conftest):
         cli = Conftest("policy/dir")
         mocker.patch("delegator.run", return_value=Mock(out="[]"))
         cli.test("some/file")
@@ -46,7 +49,7 @@ class TestConftest(object):
         with pytest.raises(ConftestRunError, match="mock error"):
             cli.test("some/file")
 
-    def test_test_missing_exe(self, mocker):
+    def test_test_missing_exe(self, mocker, conftest):
         mocker.patch("shutil.which", return_value=None)
         with pytest.raises(ConftestNotFoundError):
             cli = Conftest()
@@ -57,7 +60,7 @@ class TestConftest(object):
         cli.verify()
         delegator.run.assert_called_once_with("conftest verify --output json")
 
-    def test_verify_method_with_policy(self, mocker):
+    def test_verify_method_with_policy(self, mocker, conftest):
         cli = Conftest("policy/dir")
         mocker.patch("delegator.run", return_value=Mock(out="[]"))
         cli.verify()
