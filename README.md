@@ -49,7 +49,7 @@ The `Conftest` class makes interacting with [Conftest](https://github.com/instru
 Note that this requires the `conftest` executable to be available on the path.
 
 ```python
->>> from policykit.conftest import Conftest
+>>> from policykit import Conftest
 >>> cli = Conftest("policy")
 >>> result = cli.test("deployment.yaml")
 >>> result
