@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List
+from typing import List, Union
 
 import attr
 import yaml
@@ -71,13 +71,22 @@ class ConstraintTemplate(object):
                     }
                 },
                 "targets": [
-                    {"target": "admission.k8s.gatekeeper.sh", "rego": self.rego}
+                    {
+                        "target": "admission.k8s.gatekeeper.sh",
+                        "rego": self._replace_tabs(self.rego),
+                    }
                 ],
             },
         }
         if self.libs:
-            temp["spec"]["targets"][0]["libs"] = self.libs
+            temp["spec"]["targets"][0]["libs"] = self._replace_tabs(self.libs)
         return temp
+
+    def _replace_tabs(self, input: Union[str, List[str]]):
+        if isinstance(input, list):
+            return [x.expandtabs() for x in input]
+        else:
+            return input.expandtabs()
 
     def yaml(self):
         yaml.add_representer(str, str_presenter)
