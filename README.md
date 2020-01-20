@@ -58,6 +58,13 @@ ConftestRun(code=1, results=[ConftestResult(filename='/Users/garethr/Documents/c
 False
 ```
 
+Passing in a dictionary to `json_input` is parsed as JSON then sent as stdin to the `confest` executable.
+```python
+from policykit import Conftest
+
+result = Conftest("policy").test(json_input={"foo": "bar"})
+print(result)
+```
 
 ## Action
 

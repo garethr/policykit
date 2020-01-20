@@ -4,7 +4,7 @@ from unittest.mock import Mock
 import delegator  # type: ignore
 import pytest  # type: ignore
 
-from .conftest import Conftest
+from .conftest import Conftest, ConftestResult
 from .errors import ConftestNotFoundError, ConftestRunError
 
 
@@ -22,12 +22,14 @@ class TestConftest(object):
         cli.test("some/file")
         delegator.run.assert_called_once_with("conftest test --output json some/file")
 
-    def test_test_method_with_policy(self, mocker, conftest):
-        cli = Conftest("policy/dir")
+    def test_test_method_with_policy(self, mocker, conftest, tmpdir):
+        d = tmpdir.mkdir("policy")
+        d.mkdir("dir")
+        cli = Conftest(tmpdir + "/policy/dir")
         mocker.patch("delegator.run", return_value=Mock(out="[]"))
         cli.test("some/file")
         delegator.run.assert_called_once_with(
-            "conftest test --output json --policy policy/dir some/file"
+            f"conftest test --output json --policy {tmpdir}/policy/dir some/file"
         )
 
     def test_test_method_with_namespace(self, mocker, cli):
@@ -79,10 +81,41 @@ class TestConftest(object):
         cli.verify()
         delegator.run.assert_called_once_with("conftest verify --output json")
 
-    def test_verify_method_with_policy(self, mocker, conftest):
-        cli = Conftest("policy/dir")
+    def test_verify_method_with_policy(self, mocker, conftest, tmpdir):
+        d = tmpdir.mkdir("policy")
+        d.mkdir("dir")
+        cli = Conftest(tmpdir + "/policy/dir")
         mocker.patch("delegator.run", return_value=Mock(out="[]"))
         cli.verify()
         delegator.run.assert_called_once_with(
-            "conftest verify --output json --policy policy/dir"
+            f"conftest verify --output json --policy {tmpdir}/policy/dir"
         )
+
+
+@pytest.mark.integration
+def test_foo(tmpdir):
+    d = tmpdir.mkdir("policy")
+    fh = d.join("test.rego")
+    fh.write(
+        """package main
+
+has_key(x, k) { _ = x[k] }
+
+deny[msg] {
+    input.foo == "bar"
+    msg := "bar not allowed"
+}
+"""
+    )
+    import json
+
+    test_conftest_result = Conftest(tmpdir + "/policy").test(json_input={"foo": "bar"})
+    assert test_conftest_result.code == 1
+    assert test_conftest_result.results == [
+        ConftestResult(
+            filename="",
+            warnings=[],
+            failures=[{"info": {"msg": "bar not allowed"}}],
+            successes=[],
+        )
+    ]
