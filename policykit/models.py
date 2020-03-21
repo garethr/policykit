@@ -16,9 +16,9 @@ def str_presenter(dumper, data):
 @dataclass
 class ConftestResult:
     filename: Union[str, None]
-    warnings: List[Dict[str, Dict[str, str]]]
-    failures: List[Dict[str, Dict[str, str]]]
-    successes: List[Dict[str, Dict[str, str]]]
+    warnings: List[Dict[str, str]]
+    failures: List[Dict[str, str]]
+    successes: List[Dict[str, str]]
 
 
 @dataclass
