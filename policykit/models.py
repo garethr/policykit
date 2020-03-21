@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List, Union
+from typing import Dict, List, Union
 
 import attr
 import yaml
@@ -15,10 +15,10 @@ def str_presenter(dumper, data):
 @dataclass_json
 @dataclass
 class ConftestResult:
-    filename: str
-    Warnings: List[str]
-    Failures: List[str]
-    Successes: List[str]
+    filename: Union[str, None]
+    warnings: List[Dict[str, Dict[str, str]]]
+    failures: List[Dict[str, Dict[str, str]]]
+    successes: List[Dict[str, Dict[str, str]]]
 
 
 @dataclass
