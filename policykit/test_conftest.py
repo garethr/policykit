@@ -142,9 +142,6 @@ deny[msg] {
     assert test_conftest_result.code == 0
     assert test_conftest_result.results == [
         ConftestResult(
-            filename="",
-            warnings=[],
-            failures=[],
-            successes=[{"msg": "data.main.deny"}],
+            filename="", warnings=[], failures=[], successes=[{"msg": "data.main.deny"}]
         )
     ]
