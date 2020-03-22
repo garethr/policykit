@@ -93,7 +93,7 @@ class TestConftest(object):
 
 
 @pytest.mark.integration
-def test_foo(tmpdir):
+def test_json_fail(tmpdir):
     d = tmpdir.mkdir("policy")
     fh = d.join("test.rego")
     fh.write(
@@ -115,7 +115,33 @@ deny[msg] {
         ConftestResult(
             filename="",
             warnings=[],
-            failures=[{"info": {"msg": "bar not allowed"}}],
+            failures=[{"msg": "bar not allowed"}],
             successes=[],
+        )
+    ]
+
+
+@pytest.mark.integration
+def test_json_success(tmpdir):
+    d = tmpdir.mkdir("policy")
+    fh = d.join("test.rego")
+    fh.write(
+        """package main
+
+has_key(x, k) { _ = x[k] }
+
+deny[msg] {
+    input.foo == "bar"
+    msg := "bar not allowed"
+}
+"""
+    )
+    import json
+
+    test_conftest_result = Conftest(tmpdir + "/policy").test(json_input={"foo": "boat"})
+    assert test_conftest_result.code == 0
+    assert test_conftest_result.results == [
+        ConftestResult(
+            filename="", warnings=[], failures=[], successes=[{"msg": "data.main.deny"}]
         )
     ]

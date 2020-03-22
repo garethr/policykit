@@ -1,4 +1,5 @@
 import pytest  # type: ignore
+
 from policykit import ConstraintTemplate
 from policykit.models import ConftestRun
 
